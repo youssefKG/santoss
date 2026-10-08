@@ -1,6 +1,7 @@
 from .error import CallError
 from .generator import Generator, FunctionDefinition, Prompt
-
+from .prefixtrie import PrefixTrie
+from .model import Model
 
 import json
 import argparse
@@ -9,7 +10,7 @@ class Json():
     def __init__(self) -> None:
         self.parser = argparse.ArgumentParser(
                     prog='ProgramName')
-        self.__add_args()
+        #self.__add_args()
 
     def __add_args(self) -> None:
         self.parser.add_argument(
@@ -33,10 +34,22 @@ class Json():
         return [Prompt(**prompt) for prompt in prompts]
 
 
+def create_prefixtrie(
+        functions_name_ids: list[list[int]]
+        ) -> PrefixTrie:
+    trie = PrefixTrie()
+    print(functions_name_ids)
+    for token_ids in functions_name_ids:
+        trie.set_trie(token_ids)
+    return trie
+
+
 def main() -> None:
     data = Json()
-    trie: PrifixTrie = ()
+    model = Model() 
+    functions_definition = data.get_functions_definition()
     Generator(
+            trie=create_prefixtrie([model.encode(fun.name) for fun in functions_definition]),
             prompts=data.get_prompts(),
             functions_definition=data.get_functions_definition()
             ).run()

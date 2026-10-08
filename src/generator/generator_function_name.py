@@ -1,7 +1,7 @@
 class FunctionName():
-    def __init__(self, trie: profixTrie) -> None:
-        self.trie: PrifixTrie = trie
+    def __init__(self) -> None:
+        pass
 
-    def generator(self, prompt: str) -> None:
+    def generator(self, prompt: str, trie: prefixTrie) -> None:
         pass
 
